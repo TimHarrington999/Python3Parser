@@ -1,6 +1,6 @@
 # Python3Parser
 
-Team Name: TBD
+Team Name: Quarter Code
 
 Team Members:
   - Timothy Harrington
