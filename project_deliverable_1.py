@@ -39,7 +39,7 @@ var_1 = [
 'var4 = 1'
 ]
 
-bool = 'flag = True'
+bool = ['flag = True']
 
 def check_code(code):
     s = InputStream(code)
@@ -60,7 +60,7 @@ def check_code(code):
         print("passed")
 
 def main():
-    for assign in assign_1:
+    for assign in bool:
         check_code(assign)
 
 main()
