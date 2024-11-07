@@ -20,6 +20,12 @@ VARNAME: [a-zA-Z][a-zA-Z0-9_]*;
 STRING1 : '\'' [a-zA-Z0-9]* '\'';
 STRING2 : '"' [a-zA-Z0-9]* '"';
 BOOL : 'True' | 'False';
+ARRAY : '[' ARR_ELEMENTS? ']';
+ARR_ELEMENTS : ARR_ELEM (',' ARR_ELEM)*;
+ARR_ELEM : INT
+    | STRING1
+    | STRING2
+    | ARRAY;
 assignment:	VARNAME '=' expr | VARNAME ('+=' | '-=' | '*=' | '%=' | '/=') expr;
 
 WS:	[ \t\r]+ -> skip;
