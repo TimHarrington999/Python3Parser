@@ -1,6 +1,6 @@
 grammar PythonLang;
 
-prog:	exp EOF;
+prog:	exp* EOF;
 
 exp : assignment;
 
@@ -22,7 +22,7 @@ STRING1 : '\'' [a-zA-Z0-9]* '\'';
 STRING2 : '"' [a-zA-Z0-9]* '"';
 BOOL : 'True' | 'False';
 ARRAY : '[' ARR_ELEMENTS? ']';
-ARR_ELEMENTS : ARR_ELEM (', ' ARR_ELEM | ',' ARR_ELEM)*;
+ARR_ELEMENTS : ARR_ELEM (',' WS* ARR_ELEM)*;
 ARR_ELEM : INT
     | FLOAT
     | STRING1
