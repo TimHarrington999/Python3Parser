@@ -2,7 +2,7 @@ grammar PythonLang;
 
 prog:	exp* EOF;
 
-exp : assignment;
+exp : assignment WS*;
 
 expr: expr ('+'|'-') expr
 	| expr ('*') expr
@@ -30,6 +30,6 @@ ARR_ELEM : INT
     | VARNAME
     | BOOL
     | ARRAY;
-assignment:	VARNAME '=' expr | VARNAME ('+=' | '-=' | '*=' | '%=' | '/=') expr;
+assignment:	VARNAME ('=' | '+=' | '-=' | '*=' | '%=' | '/=') expr;
 
-WS:	[ \t\r]+ -> skip;
+WS:	[ \n\t\r]+ -> skip;
