@@ -2,7 +2,7 @@ grammar PythonLang;
 
 prog:	exp* EOF;
 
-exp : assignment WS*;
+exp : assignment | compare;
 
 expr: expr ('+'|'-') expr
 	| expr ('*') expr
@@ -15,21 +15,24 @@ expr: expr ('+'|'-') expr
     | BOOL
     | ARRAY;
 
-INT:	[0-9]+;
-FLOAT: [0-9]+'.'[0-9]+;
+INT:	'-'?[0-9]+;
+FLOAT: '-'?[0-9]+'.'[0-9]+;
 VARNAME: [a-zA-Z][a-zA-Z0-9_]*;
 STRING1 : '\'' [a-zA-Z0-9]* '\'';
 STRING2 : '"' [a-zA-Z0-9]* '"';
 BOOL : 'True' | 'False';
 ARRAY : '[' ARR_ELEMENTS? ']';
 ARR_ELEMENTS : ARR_ELEM (',' WS* ARR_ELEM)*;
-ARR_ELEM : INT
+ELEM : INT
     | FLOAT
     | STRING1
     | STRING2
     | VARNAME
-    | BOOL
+    | BOOL;
+ARR_ELEM : ELEM
     | ARRAY;
-assignment:	VARNAME ('=' | '+=' | '-=' | '*=' | '%=' | '/=') expr;
+COMPARE : ELEM ('>' | '<' | '<=' | '>=' | '==' | '!=' | 'and' | 'or' | 'not') ELEM;
+compare : ('if' | 'else' | 'elif') COMPARE ':';
+assignment:	VARNAME '=' expr | VARNAME ('+=' | '-=' | '*=' | '%=' | '/=') expr;
 
-WS:	[ \n\t\r]+ -> skip;
+WS:	[ \t\r\n]+ -> skip;
