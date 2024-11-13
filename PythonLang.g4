@@ -1,17 +1,15 @@
 grammar PythonLang;
 
 // ########## parser rules ##########
-prog : exp* EOF;
+prog : (NEWLINE*) (exp NEWLINE+)* EOF;
 
-exp 
-    : assignment 
-    | conditional 
+exp  : assignment
+    | conditional
     ;
 
 assignment : VARNAME ASSIGNMENT expr;
 
-expr 
-    : expr OPERATOR expr
+expr  : expr OPERATOR expr
 	| INT
     | FLOAT
     | STRING
@@ -19,54 +17,49 @@ expr
     | BOOL
     | ARRAY;
 
-conditional
-    : 'if' conditional_phrase ':' block_statements+ ;
+conditional : 'if' conditional_phrase (CONDOR conditional_phrase)* ':' block_statements* 
+    ((NEWLINE)'elif' conditional_phrase (CONDOR conditional_phrase)* ':' block_statements*)*
+    ((NEWLINE)'else' ':' block_statements*)?;
 
-condition
-    : VARNAME COMPARE ELEM
-    | VARNAME COMPARE ELEM COND_OPER conditional_phrase
+condition : ( expr COMPARE expr) | BOOL | expr;
+
+conditional_phrase : '(' NEGATION? condition ')'
+    | NEGATION? condition
     ;
 
-conditional_phrase
-    : '(' conditional_phrase ')'
-    | condition
-    ;
-
-block_statements : INDENT exp '';
+block_statements : (NEWLINE)+ INDENT exp;
 
 //compare : ('if' | 'else' | 'elif') COMPARE ':';
 
 // ########## lexer rules ##########
+NEGATION : 'not' ;
+CONDOR : 'and' | 'or';
 INT : '-'?[0-9]+;
 FLOAT : '-'?[0-9]+'.'[0-9]+;
-VARNAME : [a-zA-Z][a-zA-Z0-9_]*;
+BOOL : 'True' | 'False';
 STRING : STRING1 | STRING2 ;
 STRING1 : '\'' [a-zA-Z0-9 ]* '\'';
 STRING2 : '"' [a-zA-Z0-9 ]* '"';
-BOOL : 'True' | 'False';
+VARNAME : [a-zA-Z][a-zA-Z0-9_]*;
 
 ARRAY : '[' ARR_ELEMENTS? ']';
 ARR_ELEMENTS : ARR_ELEM (',' WS* ARR_ELEM)*;
-ELEM 
-    : INT
+ELEM : INT
     | FLOAT
     | STRING
     | VARNAME
     | BOOL;
-ARR_ELEM 
-    : ELEM
+ARR_ELEM : ELEM
     | ARRAY;
 
-OPERATOR
-    : '+'
+OPERATOR : '+'
     | '-'
     | '*'
     | '%'
     | '/'
     ;
 
-ASSIGNMENT
-    : '='
+ASSIGNMENT : '='
     | '+='
     | '-='
     | '*='
@@ -74,8 +67,7 @@ ASSIGNMENT
     | '%='
     ;
 
-COMPARE 
-    : '>' 
+COMPARE : '>' 
     | '<' 
     | '<=' 
     | '>=' 
@@ -83,14 +75,7 @@ COMPARE
     | '!=' 
     ;
 
-COND_OPER
-    : 'and'
-    | 'or'
-    ;
-
-NEGATION : 'not' ;
-
-//NEWLINE: ('\r'? '\n' | '\r')+;
+NEWLINE: ('\r'? '\n' | '\r')+;
 INDENT: '    ' | [\t] ;
 
-WS: [ \t\r\n]+ -> skip;
+WS: [ \r]+ -> skip;
