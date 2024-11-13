@@ -17,14 +17,14 @@ expr  : expr OPERATOR expr
     | BOOL
     | ARRAY;
 
-conditional : 'if' conditional_phrase ':' block_statements* 
-    ( 'elif' conditional_phrase ':' block_statements*)*
+conditional : 'if' conditional_phrase (COND_OPER conditional_phrase)* ':' block_statements* 
+    ( 'elif' conditional_phrase (COND_OPER conditional_phrase)* ':' block_statements*)*
     ('else' ':' block_statements*)?;
 
 condition : (expr COMPARE expr);
 
-conditional_phrase : '(' condition ')' (COND_OPER conditional_phrase)*
-    | condition (COND_OPER conditional_phrase)*
+conditional_phrase : '(' condition ')'
+    | condition
     ;
 
 block_statements : INDENT exp;
