@@ -3,15 +3,13 @@ grammar PythonLang;
 // ########## parser rules ##########
 prog : exp* EOF;
 
-exp 
-    : assignment 
-    | conditional 
+exp  : assignment
+    | conditional
     ;
 
 assignment : VARNAME ASSIGNMENT expr;
 
-expr 
-    : expr OPERATOR expr
+expr  : expr OPERATOR expr
 	| INT
     | FLOAT
     | STRING
@@ -19,20 +17,17 @@ expr
     | BOOL
     | ARRAY;
 
-conditional
-    : 'if' conditional_phrase ':' block_statements+ ;
+conditional : 'if' conditional_phrase ':' block_statements* 
+    ( 'elif' conditional_phrase ':' block_statements*)*
+    ('else' ':' block_statements*)?;
 
-condition
-    : VARNAME COMPARE ELEM
-    | VARNAME COMPARE ELEM COND_OPER conditional_phrase
+condition : (expr COMPARE expr);
+
+conditional_phrase : '(' condition ')' (COND_OPER conditional_phrase)*
+    | condition (COND_OPER conditional_phrase)*
     ;
 
-conditional_phrase
-    : '(' conditional_phrase ')'
-    | condition
-    ;
-
-block_statements : INDENT exp '';
+block_statements : INDENT exp;
 
 //compare : ('if' | 'else' | 'elif') COMPARE ':';
 
@@ -47,26 +42,22 @@ BOOL : 'True' | 'False';
 
 ARRAY : '[' ARR_ELEMENTS? ']';
 ARR_ELEMENTS : ARR_ELEM (',' WS* ARR_ELEM)*;
-ELEM 
-    : INT
+ELEM : INT
     | FLOAT
     | STRING
     | VARNAME
     | BOOL;
-ARR_ELEM 
-    : ELEM
+ARR_ELEM : ELEM
     | ARRAY;
 
-OPERATOR
-    : '+'
+OPERATOR : '+'
     | '-'
     | '*'
     | '%'
     | '/'
     ;
 
-ASSIGNMENT
-    : '='
+ASSIGNMENT : '='
     | '+='
     | '-='
     | '*='
@@ -74,8 +65,7 @@ ASSIGNMENT
     | '%='
     ;
 
-COMPARE 
-    : '>' 
+COMPARE : '>' 
     | '<' 
     | '<=' 
     | '>=' 
@@ -83,8 +73,7 @@ COMPARE
     | '!=' 
     ;
 
-COND_OPER
-    : 'and'
+COND_OPER : 'and'
     | 'or'
     ;
 
@@ -93,4 +82,4 @@ NEGATION : 'not' ;
 //NEWLINE: ('\r'? '\n' | '\r')+;
 INDENT: '    ' | [\t] ;
 
-WS: [ \t\r\n]+ -> skip;
+WS: [ \r\t\n]+ -> skip;
