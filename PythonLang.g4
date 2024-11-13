@@ -17,8 +17,8 @@ expr  : expr OPERATOR expr
     | BOOL
     | ARRAY;
 
-conditional : 'if' conditional_phrase (('and'| 'or') conditional_phrase)* ':' block_statements* 
-    ((NEWLINE)'elif' conditional_phrase (('and'| 'or') conditional_phrase)* ':' block_statements*)*
+conditional : 'if' conditional_phrase (CONDOR conditional_phrase)* ':' block_statements* 
+    ((NEWLINE)'elif' conditional_phrase (CONDOR conditional_phrase)* ':' block_statements*)*
     ((NEWLINE)'else' ':' block_statements*)?;
 
 condition : ( expr COMPARE expr) | BOOL | expr;
@@ -33,13 +33,14 @@ block_statements : (NEWLINE)+ INDENT exp;
 
 // ########## lexer rules ##########
 NEGATION : 'not' ;
+CONDOR : 'and' | 'or';
 INT : '-'?[0-9]+;
 FLOAT : '-'?[0-9]+'.'[0-9]+;
-VARNAME : [a-zA-Z][a-zA-Z0-9_]*;
+BOOL : 'True' | 'False';
 STRING : STRING1 | STRING2 ;
 STRING1 : '\'' [a-zA-Z0-9 ]* '\'';
 STRING2 : '"' [a-zA-Z0-9 ]* '"';
-BOOL : 'True' | 'False';
+VARNAME : [a-zA-Z][a-zA-Z0-9_]*;
 
 ARRAY : '[' ARR_ELEMENTS? ']';
 ARR_ELEMENTS : ARR_ELEM (',' WS* ARR_ELEM)*;
