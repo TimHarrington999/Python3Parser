@@ -1,7 +1,7 @@
 grammar PythonLang;
 
 // ########## parser rules ##########
-prog : exp* EOF;
+prog : (NEWLINE*) (exp NEWLINE+)* EOF;
 
 exp  : assignment
     | conditional
@@ -79,7 +79,7 @@ COND_OPER : 'and'
 
 NEGATION : 'not' ;
 
-//NEWLINE: ('\r'? '\n' | '\r')+;
+NEWLINE: ('\r'? '\n' | '\r')+;
 INDENT: '    ' | [\t] ;
 
-WS: [ \r\t\n]+ -> skip;
+WS: [ \r]+ -> skip;
