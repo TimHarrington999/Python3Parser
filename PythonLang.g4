@@ -20,7 +20,7 @@ expr
     | ARRAY;
 
 conditional
-    : 'if' conditional_phrase ':\n' block_statements+ ;
+    : 'if' conditional_phrase ':' block_statements+ ;
 
 condition
     : VARNAME COMPARE ELEM
@@ -32,7 +32,7 @@ conditional_phrase
     | condition
     ;
 
-block_statements : INDENT exp '\r';
+block_statements : INDENT exp '';
 
 //compare : ('if' | 'else' | 'elif') COMPARE ':';
 
