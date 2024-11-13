@@ -17,21 +17,22 @@ expr  : expr OPERATOR expr
     | BOOL
     | ARRAY;
 
-conditional : 'if' conditional_phrase (COND_OPER conditional_phrase)* ':' block_statements* 
-    ( 'elif' conditional_phrase (COND_OPER conditional_phrase)* ':' block_statements*)*
-    ('else' ':' block_statements*)?;
+conditional : 'if' conditional_phrase (('and'| 'or') conditional_phrase)* ':' block_statements* 
+    ((NEWLINE)'elif' conditional_phrase (('and'| 'or') conditional_phrase)* ':' block_statements*)*
+    ((NEWLINE)'else' ':' block_statements*)?;
 
-condition : (expr COMPARE expr);
+condition : ( expr COMPARE expr) | BOOL | expr;
 
-conditional_phrase : '(' condition ')'
-    | condition
+conditional_phrase : '(' NEGATION? condition ')'
+    | NEGATION? condition
     ;
 
-block_statements : INDENT exp;
+block_statements : (NEWLINE)+ INDENT exp;
 
 //compare : ('if' | 'else' | 'elif') COMPARE ':';
 
 // ########## lexer rules ##########
+NEGATION : 'not' ;
 INT : '-'?[0-9]+;
 FLOAT : '-'?[0-9]+'.'[0-9]+;
 VARNAME : [a-zA-Z][a-zA-Z0-9_]*;
@@ -72,12 +73,6 @@ COMPARE : '>'
     | '==' 
     | '!=' 
     ;
-
-COND_OPER : 'and'
-    | 'or'
-    ;
-
-NEGATION : 'not' ;
 
 NEWLINE: ('\r'? '\n' | '\r')+;
 INDENT: '    ' | [\t] ;
