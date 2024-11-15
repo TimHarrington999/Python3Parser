@@ -1,7 +1,13 @@
 grammar PythonLang;
 
 // ########## parser rules ##########
-prog : (NEWLINE*) (exp NEWLINE+)* EOF;
+prog : (NEWLINE*) prog_block;
+
+prog_block : (exp NEWLINE+)* exp EOF
+    | (exp NEWLINE+)* EOF
+    | exp EOF
+    | EOF
+    ;
 
 exp  : assignment
     | conditional
