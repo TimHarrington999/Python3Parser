@@ -32,7 +32,9 @@ conditional : 'if' conditional_phrase (CONDOR conditional_phrase)* ':' block_sta
     ((NEWLINE)'else' ':' block_statements*)?;
 
 loop : 'while' conditional_phrase (CONDOR conditional_phrase)* ':' block_statements* 
-    | 'for' VARNAME 'in' ('range('(VARNAME | INT | TUPLE)')' | ARRAY) ':' block_statements*;
+    | 'for' VARNAME 'in' ( 'range(' (VARNAME | INT | TUPLE) ')' | (VARNAME | ARRAY) ) ':' block_statements*;
+
+
 
 
 condition : ( expr COMPARE expr) | BOOL | expr;
@@ -41,7 +43,7 @@ conditional_phrase : '(' NEGATION? condition ')'
     | NEGATION? condition
     ;
 
-block_statements : (NEWLINE)+ INDENT exp;
+block_statements : (NEWLINE)+ INDENT exp?;
 
 
 //compare : ('if' | 'else' | 'elif') COMPARE ':';
