@@ -1,5 +1,8 @@
 grammar PythonLang;
 
+
+
+
 // ########## parser rules ##########
 prog : (NEWLINE*) prog_block;
 
@@ -26,6 +29,7 @@ expr  : expr OPERATOR expr
 conditional : 'if' conditional_phrase (CONDOR conditional_phrase)* ':' block_statements* 
     ((NEWLINE)'elif' conditional_phrase (CONDOR conditional_phrase)* ':' block_statements*)*
     ((NEWLINE)'else' ':' block_statements*)?;
+
 
 condition : ( expr COMPARE expr) | BOOL | expr;
 
@@ -87,5 +91,9 @@ NEWLINE: ('\r'? '\n' | '\r')+;
 INDENT: '    ' | [\t] ;
 
 
-COMMENT : '#' ~[\r\n]* -> skip;
+COMMENT
+    : ('#' ~[\r\n]* 
+    | '\'\'\''( . | '\r' | '\n' )*?'\'\'\'') -> skip
+    ;
+
 WS: [ ]+ -> skip;
