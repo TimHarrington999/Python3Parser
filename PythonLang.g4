@@ -35,6 +35,7 @@ conditional_phrase : '(' NEGATION? condition ')'
 
 block_statements : (NEWLINE)+ INDENT exp;
 
+
 //compare : ('if' | 'else' | 'elif') COMPARE ':';
 
 // ########## lexer rules ##########
@@ -47,6 +48,7 @@ STRING : STRING1 | STRING2 ;
 STRING1 : '\'' [a-zA-Z0-9 ]* '\'';
 STRING2 : '"' [a-zA-Z0-9 ]* '"';
 VARNAME : [a-zA-Z][a-zA-Z0-9_]*;
+
 
 ARRAY : '[' ARR_ELEMENTS? ']';
 ARR_ELEMENTS : ARR_ELEM (',' WS* ARR_ELEM)*;
@@ -84,4 +86,6 @@ COMPARE : '>'
 NEWLINE: ('\r'? '\n' | '\r')+;
 INDENT: '    ' | [\t] ;
 
-WS: [ \r]+ -> skip;
+
+COMMENT : '#' ~[\r\n]* -> skip;
+WS: [ ]+ -> skip;
