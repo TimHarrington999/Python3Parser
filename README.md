@@ -32,8 +32,7 @@ Of course, you'll need to have Python installed, specifically Python3. Additiona
 - 8: At this point you should be ready to begin using ANTLR! If you weren't able to download the latest version of antlr for whatever reason, that is okay as long the python runtime package is the same version.
 
 ## Running:
-Once ANTLR is setup and necessary python packages installed, we are ready to run the parser. All you need to do is use the command 'antlr4' to generate a lexer and a parser from a .g4 file. The lexer and parser files are what the parser code uses to use the grammar. Simply run this:
+Once ANTLR is setup and necessary python packages installed, we are ready to run the parser. All you need to do is use the command 'antlr4' to generate a lexer and a parser from a .g4 file. The lexer and parser files are what the parser code uses to use the grammar. The first command generates the lexer and parser files. After you import those files into you Python file, you simply run your Python file as you would normally such as the second command.
  - antlr4 -Dlanguage=Python3 PythonLang.g4
-Followed by this to execute the parser code:  
  - python3 project_deliverable_3.py
 Anytime an edit is made to the .g4 file, the lexer and parser files need to be regenerated with the antlr4 command above to reflect those changes.
