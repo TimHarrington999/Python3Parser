@@ -34,6 +34,6 @@ Of course, you'll need to have Python installed, specifically Python3. Additiona
 ## Running:
 Once ANTLR is setup and necessary python packages installed, we are ready to run the parser. All you need to do is use the command 'antlr4' to generate a lexer and a parser from a .g4 file. The lexer and parser files are what the parser code uses to use the grammar. Simply run this:
  - antlr4 -Dlanguage=Python3 PythonLang.g4
-Followed by this to execute the parser code:
+Followed by this to execute the parser code:  
  - python3 project_deliverable_3.py
 Anytime an edit is made to the .g4 file, the lexer and parser files need to be regenerated with the antlr4 command above to reflect those changes.
