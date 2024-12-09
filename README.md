@@ -6,6 +6,9 @@
   - Timothy Harrington
   - Brody Pfingsten
 
+## Project Goal:
+  - Create a parser for the Python languange using Antlr4
+
 ## Software Requirements:
   - Python3
   - ANTLR4 (4.13.2)
