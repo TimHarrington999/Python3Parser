@@ -36,3 +36,6 @@ Once ANTLR is setup and necessary python packages installed, we are ready to run
  - antlr4 -Dlanguage=Python3 PythonLang.g4
  - python3 project_deliverable_3.py
 Anytime an edit is made to the .g4 file, the lexer and parser files need to be regenerated with the antlr4 command above to reflect those changes.
+
+
+Here is a video of the project running : https://youtu.be/PHPbyVQjbjY
