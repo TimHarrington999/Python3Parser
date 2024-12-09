@@ -28,11 +28,11 @@ expr  : expr OPERATOR expr
     | ARRAY;
 
 conditional : 'if' conditional_phrase (CONDOR conditional_phrase)* ':' block_statements* 
-    ((NEWLINE)'elif' conditional_phrase (CONDOR conditional_phrase)* ':' block_statements*)*
-    ((NEWLINE)'else' ':' block_statements*)?;
+    ((NEWLINE) INDENT* 'elif' conditional_phrase (CONDOR conditional_phrase)* ':' block_statements*)*
+    ((NEWLINE) INDENT* 'else' ':' block_statements*)?;
 
-loop : 'while' conditional_phrase (CONDOR conditional_phrase)* ':' (block_statements)* 
-    | 'for' VARNAME 'in' ( 'range(' (VARNAME | INT | TUPLE) ')' | (VARNAME | ARRAY) ) ':' (block_statements)*;
+loop : 'while' conditional_phrase (CONDOR conditional_phrase)* ':' block_statements* 
+    | 'for' VARNAME 'in' ( 'range(' (VARNAME | INT | TUPLE) ')' | (VARNAME | ARRAY) ) ':' block_statements*;
 
 
 
@@ -94,11 +94,7 @@ COMPARE : '>'
     ;
 
 NEWLINE: ('\r'? '\n' | '\r')+;
-INDENT: '    ' | [\t] ;
-
-// new indent and dedent tokens to be used with the custom lexer
-//INDENT: 'INDENT';
-//DEDENT: 'DEDENT';
+INDENT: '    '+ | [\t]+ ;
 
 
 COMMENT
